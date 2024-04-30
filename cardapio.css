@@ -155,7 +155,21 @@ html {
     margin-top: 15px;
     background-color: rgb(237, 238, 230);
 }
+.btn-continuar-comprando {
+    margin: auto;
+    width: 50%;
+}
 
+.btn-ir-para-carrinho {
+    font-size: 10px;
+    font-style: italic;
+    margin-bottom: 10px; /* Adiciona espaço abaixo do botão */
+  }
+  
+  .btn-ir-para-carrinho .bi {
+    margin-right: 5px; /* Adiciona espaço entre o ícone e o texto */
+  }
+  
 
 .card-body2 .col {
     /* background-color: #f1e94b;  */

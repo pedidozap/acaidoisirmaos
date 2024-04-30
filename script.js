@@ -11,6 +11,7 @@ function adicionarAoCarrinho(nome, preco, quantidade = 1) {
 
   atualizarCarrinho();
   atualizarContagemCarrinho();
+  verificarCarrinhoEVoltar(); // Verifica se o carrinho está vazio e atualiza a exibição do botão "Continuar comprando"
 }
 
 // Função para remover um item do carrinho
@@ -25,6 +26,7 @@ function removerDoCarrinho(nome, quantidade = 1) {
 
   atualizarCarrinho();
   atualizarContagemCarrinho();
+  verificarCarrinhoEVoltar(); // Verifica se o carrinho está vazio e atualiza a exibição do botão "Continuar comprando"
 }
 
 // Função para finalizar a compra e enviar mensagem para o WhatsApp
@@ -42,21 +44,21 @@ function finalizarCompra() {
   const opcaoEntregaSelecionada = document.getElementById("opcaoentrega").value;
   const bairroSelecionado = document.getElementById("bairro").value;
 
- // Verifica se a opção de entrega é selecionada e, caso selecionada, se o bairro também foi preenchido
- if (opcaoEntregaSelecionada === "entrega" && !bairroSelecionado) {
-  alert("Por favor, selecione um bairro para entrega.");
-  return;
-}
+  // Verifica se a opção de entrega é selecionada e, caso selecionada, se o bairro também foi preenchido
+  if (opcaoEntregaSelecionada === "entrega" && !bairroSelecionado) {
+    alert("Por favor, selecione um bairro para entrega.");
+    return;
+  }
 
-if (!nomeCliente || !enderecoCliente || !formaPagamento || !opcaoEntregaSelecionada) {
-  alert("Por favor, preencha todos os campos obrigatórios.");
-  return;
-}
+  if (!nomeCliente || !enderecoCliente || !formaPagamento || !opcaoEntregaSelecionada) {
+    alert("Por favor, preencha todos os campos obrigatórios.");
+    return;
+  }
 
-if (opcaoEntregaSelecionada === "entrega" && !bairroSelecionado) {
-  alert("Por favor, selecione um bairro para entrega.");
-  return;
-}
+  if (opcaoEntregaSelecionada === "entrega" && !bairroSelecionado) {
+    alert("Por favor, selecione um bairro para entrega.");
+    return;
+  }
 
   // Obtém o número do pedido ou define como 1 se não existir
   let numeroPedido = localStorage.getItem("numeroPedido") || 1;
@@ -87,36 +89,31 @@ if (opcaoEntregaSelecionada === "entrega" && !bairroSelecionado) {
     total += taxaEntrega;
   }
 
-
   // Adiciona taxa para pagamento com cartão de débito ou crédito
   if (formaPagamento === "Cartão de Débito" || formaPagamento === "Cartão de Crédito") {
     total += 2.00;
-    // mensagem += "\n*Forma de Pagamento:* Cartão de Débito/Crédito - *Taxa:* R$ 2.00";
   }
 
-// Constrói a mensagem do WhatsApp
-let mensagem = `*Pedido Nº: ${numeroPedido}*\n\n${new Date().toLocaleString(
-  "pt-BR"
-)}\n----------------------------------------------\n\n*Nome:* ${nomeCliente}\n${
-  opcaoEntregaSelecionada === "retirada"
-    ? "*Opção de Entrega:* Retirada na Loja"
-    : `*Endereço:* ${enderecoCliente}\n*Bairro:* ${bairroSelecionado}`
-}\n\n*Produtos:*\n${produtos}\n\n----------------------------------------------\n*Observação:* ${observacao}\n----------------------------------------------\n\n*Subtotal:* R$ ${subtotal.toFixed(
-  2
-)}\n${
-  opcaoEntregaSelecionada === "entrega"
-    ? `*Taxa de Entrega:* R$ ${taxaEntrega.toFixed(2)}\n`
-    : ""
-}*Forma de pagamento:* ${formaPagamento}${
-  formaPagamento === "Dinheiro" && troco ? `\n*Troco para:* R$` + troco : ""
-}\n${
-  formaPagamento === "Cartão de Débito" || formaPagamento === "Cartão de Crédito"
-    ? "*Taxa de cartão:* R$ 2.00\n"
-    : ""
-}*Total:* R$ ${total.toFixed(2)}`;
-
-
-
+  // Constrói a mensagem do WhatsApp
+  let mensagem = `*Pedido Nº: ${numeroPedido}*\n\n${new Date().toLocaleString(
+    "pt-BR"
+  )}\n----------------------------------------------\n\n*Nome:* ${nomeCliente}\n${
+    opcaoEntregaSelecionada === "retirada"
+      ? "*Opção de Entrega:* Retirada na Loja"
+      : `*Endereço:* ${enderecoCliente}\n*Bairro:* ${bairroSelecionado}`
+  }\n\n*Produtos:*\n${produtos}\n\n----------------------------------------------\n*Observação:* ${observacao}\n----------------------------------------------\n\n*Subtotal:* R$ ${subtotal.toFixed(
+    2
+  )}\n${
+    opcaoEntregaSelecionada === "entrega"
+      ? `*Taxa de Entrega:* R$ ${taxaEntrega.toFixed(2)}\n`
+      : ""
+  }*Forma de pagamento:* ${formaPagamento}${
+    formaPagamento === "Dinheiro" && troco ? `\n*Troco para:* R$` + troco : ""
+  }\n${
+    formaPagamento === "Cartão de Débito" || formaPagamento === "Cartão de Crédito"
+      ? "*Taxa de cartão:* R$ 2.00\n"
+      : ""
+  }*Total:* R$ ${total.toFixed(2)}`;
 
   // Incrementa o número do pedido para o próximo pedido e salva no localStorage
   localStorage.setItem("numeroPedido", parseInt(numeroPedido) + 1);
@@ -125,7 +122,7 @@ let mensagem = `*Pedido Nº: ${numeroPedido}*\n\n${new Date().toLocaleString(
   const mensagemCodificada = encodeURIComponent(mensagem);
 
   // URL do WhatsApp com o número de telefone e a mensagem
-  const urlWhatsApp = `https://api.whatsapp.com/send?phone=5521970129970&text=${mensagemCodificada}`;
+  const urlWhatsApp = `https://api.whatsapp.com/send?phone=5521994113713&text=${mensagemCodificada}`;
 
   // Abre o WhatsApp em uma nova aba
   window.open(urlWhatsApp, "_blank");
@@ -137,11 +134,14 @@ let mensagem = `*Pedido Nº: ${numeroPedido}*\n\n${new Date().toLocaleString(
   window.location.href = "index.html";
 }
 
-// Função para limpar o carrinho //
+// Função para limpar o carrinho
 function limparCarrinho() {
   for (const nome in carrinho) {
     delete carrinho[nome];
   }
+  atualizarCarrinho();
+  atualizarContagemCarrinho();
+  verificarCarrinhoEVoltar(); // Verifica se o carrinho está vazio e atualiza a exibição do botão "Continuar comprando"
 }
 
 // Função para calcular o subtotal do carrinho
@@ -199,6 +199,7 @@ function atualizarCarrinho() {
   }
 
   totalElement.textContent = `Total: R$ ${total.toFixed(2)}`;
+  verificarCarrinhoEVoltar(); // Verifica se o carrinho está vazio e atualiza a exibição do botão "Continuar comprando"
 }
 
 // Função auxiliar para criar botões
@@ -223,7 +224,22 @@ function atualizarContagemCarrinho() {
   cartCountElement.textContent = totalCount.toString();
 }
 
-// Adiciona ouvintes de evento para cada botão "Adicionar ao Carrinho"
+// Função para verificar se o carrinho está vazio e atualizar a exibição do botão "Continuar comprando"
+function verificarCarrinhoEVoltar() {
+  const listaCarrinho = document.querySelector(".lista-carrinho");
+  const botaoContinuarComprando = document.querySelector(".btn-continuar-comprando");
+
+  // Verifica se há itens no carrinho
+  if (listaCarrinho.children.length > 0) {
+    // Se houver itens no carrinho, mostra o botão "Continuar comprando"
+    botaoContinuarComprando.style.display = "block";
+  } else {
+    // Se não houver itens no carrinho, oculta o botão "Continuar comprando"
+    botaoContinuarComprando.style.display = "none";
+  }
+}
+
+// Adiciona ouvinte de evento para cada botão "Adicionar ao Carrinho"
 document.querySelectorAll(".btn-add-to-cart").forEach((botao) => {
   botao.addEventListener("click", () => {
     const cardSoma = botao.closest(".cardSoma");
@@ -262,6 +278,13 @@ document
 document.getElementById("pagamento").addEventListener("change", function () {
   const divTroco = document.getElementById("trocoField");
   divTroco.style.display = this.value === "Dinheiro" ? "block" : "none";
+
+  const divAcrescimoCartao = document.getElementById("acrescimoCartao");
+  if (this.value === "Cartão de Crédito" || this.value === "Cartão de Débito") {
+    divAcrescimoCartao.style.display = "block";
+  } else {
+    divAcrescimoCartao.style.display = "none";
+  }
 });
 
 // Objeto para armazenar as taxas de entrega por bairro
@@ -320,21 +343,6 @@ document.getElementById("bairro").addEventListener("change", function () {
   }
 });
 
-
-// Adiciona ouvinte de evento para o campo de seleção de pagamento
-document.getElementById("pagamento").addEventListener("change", function () {
-  const divTroco = document.getElementById("trocoField");
-  divTroco.style.display = this.value === "Dinheiro" ? "block" : "none";
-
-  const divAcrescimoCartao = document.getElementById("acrescimoCartao");
-  if (this.value === "Cartão de Crédito" || this.value === "Cartão de Débito") {
-    divAcrescimoCartao.style.display = "block";
-  } else {
-    divAcrescimoCartao.style.display = "none";
-  }
-});
-
-
 // Define o dia da semana que aparece a promoção
 document.addEventListener("DOMContentLoaded", function() {
   var currentDate = new Date();
@@ -349,7 +357,6 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 });
 
-
 // Define o dia da semana que aparece a promoção
 document.addEventListener("DOMContentLoaded", function() {
   var currentDate = new Date();
@@ -363,7 +370,6 @@ document.addEventListener("DOMContentLoaded", function() {
       document.querySelector(".promoTer").style.display = "none";
   }
 });
-
 
 // Define o dia da semana que aparece a promoção
 document.addEventListener("DOMContentLoaded", function() {
@@ -404,5 +410,33 @@ document.addEventListener("DOMContentLoaded", function() {
   } else {
       // Se não for quarta-feira, esconde a categoria de promoção de quarta-feira
       document.querySelector(".promoSex").style.display = "none";
+  }
+});
+
+// Define o dia da semana que aparece a promoção
+document.addEventListener("DOMContentLoaded", function() {
+  var currentDate = new Date();
+  var currentDayOfWeek = currentDate.getDay(); // 0 para Domingo, 1 para Segunda, ..., 6 para Sábado
+
+  // SÁBADO
+  if (currentDayOfWeek === 6) {
+      document.querySelector(".promoSab").style.display = "block";
+  } else {
+      // Se não for quarta-feira, esconde a categoria de promoção de quarta-feira
+      document.querySelector(".promoSab").style.display = "none";
+  }
+});
+
+// Define o dia da semana que aparece a promoção
+document.addEventListener("DOMContentLoaded", function() {
+  var currentDate = new Date();
+  var currentDayOfWeek = currentDate.getDay(); // 0 para Domingo, 1 para Segunda, ..., 6 para Sábado
+
+  // DOMINGO
+  if (currentDayOfWeek === 0) {
+      document.querySelector(".promoDom").style.display = "block";
+  } else {
+      // Se não for quarta-feira, esconde a categoria de promoção de quarta-feira
+      document.querySelector(".promoDom").style.display = "none";
   }
 });
