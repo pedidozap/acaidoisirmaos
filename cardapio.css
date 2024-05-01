@@ -259,6 +259,11 @@ html {
     border-radius: 3px;
     box-shadow: 1px 1px 5px rgba(69, 69, 69, 0.449);
 }
+.card-carrinho img {
+    max-width: 100%;
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px rgba(69, 69, 69, 0.449);
+}
 .lista-carrinho {
     font-size: 1.3rem !important;
 }
@@ -313,6 +318,13 @@ html {
 .checkout-form h3{
     text-align: center;
 }
+.checkout-form img{
+    max-width: 100%;
+    border-radius: 3px;
+    box-shadow: 1px 1px 5px rgba(69, 69, 69, 0.449);
+    margin-bottom: 15px;
+}
+
 
 .card-checkout form label {
     display: block; /* Mostra os labels em uma nova linha */
@@ -415,33 +427,6 @@ footer {
     align-items: center;
 }
 
-/* RESPONSIVIDADE */
-
-/* @media (max-width: 760px) {
-    .card-body2 {
-        justify-items: center;
-        display: grid;
-    }
-    .card-body2 .img-fluid{
-        justify-items: center;
-        display: flex;
-    }
-    .card-body2 img {
-        margin: auto;
-    }
-    .card-body2 h5{
-        text-align: center;
-    }
-    .card-body2 p{
-        text-align: center;
-    }
-    .card-body2 button{
-        width: 80%;
-        padding: 10px;
-        font-size: large;
-    }
-} */
-
 
 /* novo card */
 .cardProduto {
@@ -496,7 +481,7 @@ footer {
     margin: 5px;
 }
 
-.btn-add-to-cart {
+.product-info .button-container .btn-add-to-cart {
     width: 80%;
     padding: 8px 0;
     background-color: #46a54c;
@@ -506,11 +491,27 @@ footer {
     font-size: 14px;
     cursor: pointer;
 }
-
-.btn-add-to-cart:hover {
-    background-color: #26902f;
+.product-info .button-container {
+    display: flex;
+    align-items: center;
 }
-.btn-add-to-cart:active {
+
+.button-container a {
+    width: 24%;
+}
+.button-container img{
+    width: 50%;
+    margin-left: 20px;
+}
+.button-container img:hover{
+    transform: scale(1.1);
+}
+
+.product-info .button-container .btn-add-to-cart:hover {
+    background-color: #26902f;
+    color: #eaeaea;
+}
+.product-info .button-container .btn-add-to-cart:active {
     background-color: #7f857f;
     transform: scale(1.1);
 }
@@ -526,35 +527,37 @@ footer {
     justify-content: center;
     border: 1px solid #ccc;
     border-radius: 5px;
-    overflow: hidden;
-    
+    overflow: hidden;  
 }
-
+.cardProdutoMultplos a {     /* icone carrinho*/
+    max-width: 30px;
+    margin: 25px 10px 5px 10px;
+}
 .product-img-multiplo {
     width: 20%;
     height: 100%;
+    padding: 5px;
     overflow: hidden;
 }
 
-.product-img img {
-    width: 100%;
+.product-img-multiplo img { /* Pizza*/
+    width: 95px;
     display: block;
-    /* transform: scale(1.2);  */
-  }
-
-.product-info-multiplo {
-    width: 40%;
-    height: 100%;
 }
-.multiplo {
-    width: 30%;
+
+.product-info-multiplo {     /* Descrições*/
+    width: 180px;
+    margin: 5px;
+
+
 }
 .multiplo p {
-    font-size: 12px;
+    margin-top: 8px;
+    font-size: 10px;
     font-style: italic;
 }
 .multiplo .btn{
-    width: 100%;
+    width: 125px;
     border: none;
     border-radius: 6px;
     font-size: 12px;
